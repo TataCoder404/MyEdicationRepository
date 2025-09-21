@@ -5,7 +5,7 @@
 и вернуть их вместе с номером строки лога.
 
 """
-# ------ Функция-генератор ------ 
+# ------ Функция-генератор ------
 
 # def iter_errors(filename):
 #     with open (filename, 'r', encoding='utf-8') as file:
@@ -18,13 +18,13 @@
 #     print(num, line)
 
 
-# ------ Генераторное выражение: структура (<результат> for <переменные> in <итерируемое> if <условие>) ------ 
+# ------ Генераторное выражение: структура (<результат> for <переменные> in <итерируемое> if <условие>) ------
 
-with open('server.txt', 'r', encoding='utf-8') as f:
-    lines = ((num, line) for num, line in enumerate(f) if ('ERROR' in line) + ('WARNING' in line))
+# with open('server.txt', 'r', encoding='utf-8') as f:
+#     lines = ((num, line) for num, line in enumerate(f) if ('ERROR' in line) + ('WARNING' in line))
 
-    for line in lines: # запускаем генератор
-        print(line)
+#     for line in lines: # запускаем генератор
+#         print(line)
 
 
 """
@@ -34,3 +34,25 @@ with open('server.txt', 'r', encoding='utf-8') as f:
 которые нужно считать до закрытия файла.
 
 """
+
+
+class ReaderIterator:
+    def __init__(self, filename, n):
+        # TODO: инициализировать внутреннее состояние (курсор/индексы/буферы и т.п.)
+        self.line = 0  # пример: текущая позиция
+
+    def __iter__(self):
+        return self  # итератор должен возвращать сам себя
+
+    def __next__(self):
+        # TODO:  заменить на реальное условие конца
+        if False:
+            raise StopIteration
+
+        # вычислить текущее значение
+        cur_line = self.line
+
+        # обновить внутреннее состояние для следующего шага
+        self.line += 1
+
+        return cur_line

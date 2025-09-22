@@ -38,21 +38,28 @@
 
 class ReaderIterator:
     def __init__(self, filename, n):
-        # TODO: инициализировать внутреннее состояние (курсор/индексы/буферы и т.п.)
-        self.line = 0  # пример: текущая позиция
+        self.line = 0  # текущая позиция
+        self.filename = filename
+        self.n = n
+        self.file = None
 
     def __iter__(self):
-        return self  # итератор должен возвращать сам себя
+        self.file = open(self.filename, "r", encoding="utf-8")
+        return self
 
     def __next__(self):
-        # TODO:  заменить на реальное условие конца
-        if False:
+        if self.line > self.n:
+            self.file.close()
             raise StopIteration
 
         # вычислить текущее значение
-        cur_line = self.line
+        cur_line = self.file.readline()
 
         # обновить внутреннее состояние для следующего шага
         self.line += 1
 
         return cur_line
+
+
+for i in ReaderIterator("pizza_v1.csv", 5):
+    print(i)

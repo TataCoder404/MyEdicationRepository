@@ -104,30 +104,105 @@
 """
 
 
-class ReaderTxt:
-    def __init__(self, filename):
-        self.index = 0
-        self.filename = filename
-        self.file = None
+# class ReaderTxt:
+#     def __init__(self, filename):
+#         self.index = 0
+#         self.filename = filename
+#         self.file = None
+
+#     def __iter__(self):
+#         self.file = open(self.filename, "r", encoding="utf-8")
+#         return self
+
+#     def __next__(self):
+#         while True:
+
+#             line = self.file.readline()
+
+#             if not line:
+#                 self.file.close()
+#                 raise StopIteration
+
+#             self.index += 1
+
+#             if self.index % 2 == 0:
+#                 return line.strip()
+
+
+# for i in ReaderTxt("pizza_v1.csv"):
+#     print(i)
+
+
+'''
+6.	При помощи итератора выведите всю пиццу из csv файла, которая стоит дороже n.
+
+'''
+
+# import csv
+# import re
+
+
+# class PriceFilterIterator:
+#     def __init__(self, filename, max_price):
+#         self.filename = filename
+#         self.max_price = max_price
+#         self.file = None
+#         self.lines = None
+
+#     def __iter__(self):
+#         self.file = open(self.filename, 'r', encoding='utf-8')
+#         self.lines = csv.reader(self.file, delimiter=",")
+#         next(self.lines, None)  # Пропустили строку с заголовками
+
+#         return self
+
+#     def __next__(self):
+#         while True:
+#             try:
+#                 lin = next(self.lines)
+
+#             except:
+#                 self.file.close()
+#                 raise
+
+#             if int(re.sub(r'\D', '', lin[1])) > self.max_price:
+#                 return lin
+
+
+# for i in PriceFilterIterator('pizza_v1.csv', 140000):
+#     print(i)
+
+
+'''
+1.	Итератор принимает неопределенное количество чисел n и возвращает числа от 1 до 100000,
+которые делятся сразу на все числа n
+'''
+
+
+import math
+class MyIterator:
+    def __init__(self, *numbers):
+        if any(n == 0 for n in numbers) + any(n < 0 for n in numbers):
+            raise ValueError("Числа должны быть строго больше нуля!")
+
+        self.limit = 100000
+        # Наименьшее общее кратное всех переданных чисел
+        self.step = math.lcm(*numbers)
+        self.current = self.step
 
     def __iter__(self):
-        self.file = open(self.filename, "r", encoding="utf-8")
         return self
 
     def __next__(self):
-        while True:
 
-            line = self.file.readline()
+        if self.current > self.limit:
+            raise StopIteration
 
-            if not line:
-                self.file.close()
-                raise StopIteration
+        value = self.current
+        self.current += self.step
 
-            self.index += 1
-
-            if self.index % 2 == 0:
-                return line.strip()
+        return value
 
 
-for i in ReaderTxt("pizza_v1.csv"):
+for i in MyIterator(2, 3, 4, 5, 6, 7, 8):
     print(i)
